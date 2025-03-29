@@ -4,8 +4,6 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { jwt_secret } from "../config/env.js";
 
-import { uploadOnCloudinary } from "../utils/cloudinary.js";
-
 export const signUpHotel = async (req, res, next) => {
   // implement signup logic here
 
@@ -19,13 +17,6 @@ export const signUpHotel = async (req, res, next) => {
 
     if (!req.files || !req.files.certificate) {
       return res.status(400).json({ error: "Certificate is required" });
-    }
-
-    const localFilePath = req.files.certificate[0].path;
-    const cloudinaryResponse = await uploadOnCloudinary(localFilePath);
-
-    if (!cloudinaryResponse) {
-      return res.status(500).json({ error: "Cloudinary upload failed" });
     }
 
     // check if a user already exists
